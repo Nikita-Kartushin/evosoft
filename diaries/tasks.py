@@ -13,5 +13,5 @@ app.config_from_object('django.conf:settings')
 @shared_task(name="check_work_celery")
 def print_time():
     delta_time = datetime.datetime.today() - datetime.timedelta(days=10)
-    old_diaries = Diary.objects.filter(expiration__lt=delta_time)
+    old_diaries = Diary.objects.filter(expiration__lt=delta_time, kind='private')
     old_diaries.delete()
