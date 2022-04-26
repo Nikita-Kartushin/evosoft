@@ -20,7 +20,7 @@ class Diary(models.Model):
 class Note(models.Model):
     text = models.TextField()
 
-    diary = models.ForeignKey(Diary, on_delete=models.PROTECT)
+    diary = models.ForeignKey(Diary, on_delete=models.CASCADE)
 
     def __str__(self):
         return f'Страница дневника {self.diary.title}'

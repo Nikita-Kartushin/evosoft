@@ -1,0 +1,39 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=evosoft_db_prod
+      - POSTGRES_USER=evosoft_agent
+      - POSTGRES_PASSWORD=1123581321
+  web:
+    build: .
+    command: bash -c "python manage.py makemigrations &&
+      python manage.py migrate &&
+      python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    environment:
+      - POSTGRES_NAME=evosoft_db_prod
+      - POSTGRES_USER=evosoft_agent
+      - POSTGRES_PASSWORD=1123581321
+    depends_on:
+      - db
+  redis:
+    image: redis
+  celery:
+    restart: always
+    build:
+      context: .
+    command: celery -A evosoft worker -l info
+    volumes:
+      - ./code:/code
+    depends_on:
+      - db
+      - redis
+      - web
