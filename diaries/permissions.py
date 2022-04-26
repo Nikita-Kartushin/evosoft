@@ -27,7 +27,7 @@ class IsPrivateDiary(permissions.BasePermission):
             return True
 
         if not isinstance(request.user, AnonymousUser):
-            query_filter = Diary.objects.filter(kind='private', user=request.user).exists()
+            query_filter = Diary.objects.filter(user=request.user).exists()
 
             return query_filter
 
