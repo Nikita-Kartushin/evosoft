@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     'djoser',
     'drf_yasg',
     'rest_framework',
-    'django_celery_beat',
     'django_filters',
     'rest_framework_simplejwt'
 ]
@@ -206,8 +205,8 @@ SIMPLE_JWT = {
 # CELERY_RESULT_SERIALIZER = 'json'
 # CELERY_TIMEZONE = 'UTC'
 
-CELERY_BROKER_URL = 'redis://db:6379'
-CELERY_RESULT_BACKEND = 'redis://db:6379'
+CELERY_BROKER_URL = 'redis://redis:6379'
+CELERY_RESULT_BACKEND = 'redis://redis:6379'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
