@@ -1,5 +1,6 @@
 from rest_framework import viewsets
 from rest_framework.pagination import PageNumberPagination
+from rest_framework.permissions import IsAuthenticated
 
 from diaries.models import Diary, Note
 from diaries.serializers import DiarySerializer, NoteSerializer

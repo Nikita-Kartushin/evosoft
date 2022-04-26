@@ -5,28 +5,23 @@ from .models import Diary, Note
 
 class IsPrivateNote(permissions.BasePermission):
     def has_permission(self, request, view):
-        if request.method in permissions.SAFE_METHODS:
-            return True
-
-        if not isinstance(request.user, AnonymousUser):
+        if not isinstance(request.user, AnonymousUser) and request.user.is_authenticated:
             query_filter = Note.objects.filter(diary__user=request.user).exists()
             return query_filter
 
         return False
 
     def has_object_permission(self, request, view, obj):
-        if request.method in permissions.SAFE_METHODS:
+        if request.method in permissions.IsAuthenticated\
+                and request.user.is_authenticated and request.user == obj.diary.user:
             return True
 
-        return obj.diary.kind == 'public'
+        return False
 
 
 class IsPrivateDiary(permissions.BasePermission):
     def has_permission(self, request, view):
-        if request.method in permissions.SAFE_METHODS:
-            return True
-
-        if not isinstance(request.user, AnonymousUser):
+        if not isinstance(request.user, AnonymousUser) and request.user.is_authenticated:
             query_filter = Diary.objects.filter(user=request.user).exists()
 
             return query_filter
@@ -34,7 +29,7 @@ class IsPrivateDiary(permissions.BasePermission):
         return False
 
     def has_object_permission(self, request, view, obj):
-        if request.method in permissions.SAFE_METHODS:
+        if request.user.is_authenticated and obj.user == request.user:
             return True
 
-        return obj.kind == 'public'
+        return False
