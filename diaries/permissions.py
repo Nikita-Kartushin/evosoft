@@ -9,7 +9,7 @@ class IsPrivateNote(permissions.BasePermission):
             return True
 
         if not isinstance(request.user, AnonymousUser):
-            query_filter = Note.objects.filter(diary__kind='private', diary__user=request.user).exists()
+            query_filter = Note.objects.filter(diary__user=request.user).exists()
             return query_filter
 
         return False
