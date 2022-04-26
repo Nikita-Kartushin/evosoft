@@ -12,8 +12,7 @@ class IsPrivateNote(permissions.BasePermission):
         return False
 
     def has_object_permission(self, request, view, obj):
-        if request.method in permissions.IsAuthenticated\
-                and request.user.is_authenticated and request.user == obj.diary.user:
+        if request.user.is_authenticated and request.user == obj.diary.user:
             return True
 
         return False
